@@ -144,7 +144,7 @@ def menu_territorios(jogador):
         elif opcao == "3":
             console.print("[bold green]💰 Investindo em defesas no território...[/]")
             zona = input("Escolha a zona para investir: ").strip()
-            custo_defesa = 500  # Custo fictício por território
+            custo_defesa = 500
             if jogador.dinheiro >= custo_defesa and zona in jogador.zonas_controladas:
                 jogador.dinheiro -= custo_defesa
                 console.print(f"🛡️ Defesa melhorada em [yellow]{zona}[/]!")
@@ -152,7 +152,7 @@ def menu_territorios(jogador):
                 console.print("[red]❌ Dinheiro insuficiente ou território inválido![/]")
 
         elif opcao == "4":
-            return  # Volta ao menu principal
+            return
 
         else:
             console.print("[red]❌ Escolha inválida![/]")
@@ -195,11 +195,10 @@ class NPC:
             elif opcao == "3":
                 console.print(f"⚔️ Você atacou {self.nome}!")
             elif opcao == "4":
-                return  # Sai do submenu
+                return
             else:
                 console.print("[red]❌ Escolha inválida![/]")
 
-# Submenu de NPCs
 def menu_npcs():
     """Submenu para escolher com qual NPC falar"""
     while True:
@@ -211,7 +210,7 @@ def menu_npcs():
         escolha = input("Escolha um NPC: ")
 
         if escolha == "0":
-            return  # Volta ao menu principal
+            return
         elif escolha.isdigit() and 1 <= int(escolha) <= len(npcs):
             npcs[int(escolha) - 1].interagir()
         else:
@@ -220,9 +219,9 @@ def menu_npcs():
 class Gangue:
     def __init__(self, nome, forca, territorios):
         self.nome = nome
-        self.forca = forca  # Nível de poder da gangue
-        self.territorios = territorios  # Lista de zonas controladas
-        self.reputacao_com_jogador = 0  # Pode ser positivo (amizade) ou negativo (rivalidade)
+        self.forca = forca
+        self.territorios = territorios
+        self.reputacao_com_jogador = 0
 
     def atacar(self, jogador):
         """A gangue pode tentar tomar um território do jogador"""
@@ -232,7 +231,7 @@ class Gangue:
         alvo = random.choice(jogador.zonas_controladas)
         console.print(f"\n⚠️ [bold red]A gangue {self.nome} atacou {alvo}![/]")
 
-        if self.forca > random.randint(0, 100):  # Compara força da gangue vs. fator aleatório
+        if self.forca > random.randint(0, 100):
             jogador.zonas_controladas.remove(alvo)
             self.territorios.append(alvo)
             console.print(f"❌ Você perdeu {alvo} para {self.nome}!")
@@ -271,7 +270,6 @@ def guerra_territorial(jogador):
             console.print("[red]❌ Escolha inválida![/]")
 
 
-# Inicialização
 console.print(Panel("💊 [bold cyan]Simulador de Tráfico[/] 💊", style="bold red"))
 
 jogador = Jogador(input("Digite seu nome: "))
@@ -290,9 +288,9 @@ gangues = [
 def limpar_tela():
     """Limpa a tela do terminal"""
     sistema = os.name
-    if sistema == "nt":  # Windows
+    if sistema == "nt":
         os.system('cls')
-    else:  # macOS ou Linux
+    else:
         os.system('clear')
 
 while True:
@@ -320,7 +318,7 @@ while True:
         zonas.comprar_territorio(jogador, zona)
 
     elif opcao == "4":
-        menu_territorios(jogador)  # Substituímos pela função do submenu
+        menu_territorios(jogador)
 
     elif opcao == "5":
         menu_npcs()
